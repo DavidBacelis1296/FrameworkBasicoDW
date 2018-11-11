@@ -1,0 +1,97 @@
+<h2>Lista de tareas</h2>
+
+<div class="container">
+	<div class="col-md-12 text-right">
+		<a href="<?php echo APP_URL.'tareas/agregar'; ?>">
+			<button class="btn btn-sm btn-success">
+				<i class="fa fa-plus"></i>
+				Nueva Tarea
+			</button>
+		</a>
+	</div>
+	<div class="col-md-12 mgO-top-10">
+		<table class="table table-sm">
+			<thead class="thead-light">
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>Fecha</th>
+					<th>Prioridad</th>
+					<th>Categoria</th>
+					<th>Estatus</th>
+					<th>Opciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<?php foreach ($this->tareas as $tarea): ?>
+						<tr>
+							<td>
+								<?php  echo $tarea["T"]['id'];?>							
+							</td>
+							<td>
+								<?php  echo $tarea["T"]['nombre'];?>							
+							</td>
+							<td>								
+								<?php  
+									$date = date_create($tarea["T"]['fecha']);
+									echo date_format($date,'d/m/Y');
+								?>								
+							</td>
+							<td>
+								<?php 
+								if ($tarea["T"]['prioridad'] <= 3) 
+								{
+									echo "<span class='badge bg-success'>Baja</span>";
+								}
+								else if ($tarea["T"]['prioridad'] <=6) 
+								{
+									echo "<span class='badge bg-warning'>Media</span>";
+								}
+								else
+								{
+									echo "<span class='badge bg-danger'>Alta</span>";	
+								}
+								?>						
+							</td>
+							<td><?php  echo $tarea["C"]["Categoria"];?></td>
+							<td >
+								<?php if ($tarea["T"]['status'] == 0): ?>
+									<i class="fa fa-ban"></i>
+								<?php else: ?>
+									<i class="fa fa-check"></i>
+								<?php endif ?>
+							</td>
+							<td>
+								<a href="<?php  echo APP_URL.'tareas/editar/'.$tarea["T"]['id']; ?>">
+									<button class="btn btn-sm btn-primary">
+										<i class="fa fa-pen"></i>
+									</button>
+								</a>
+								<a href="<?php  echo APP_URL.'tareas/eliminar/'.$tarea["T"]['id']; ?>">
+									<button class="btn btn-sm btn-danger">
+										<i class="fa fa-trash"></i>
+									</button>
+								</a>
+								<a href="<?php  echo APP_URL.'tareas/cambiarEstado/'.$tarea["T"]['id']."/".$tarea["T"]['status']; ?>">
+									<button class="btn btn-sm btn-dark">
+										<?php 
+											if($tarea["T"]['status'] == 0)
+											{
+												echo "Habilitar";
+											}
+											else
+											{
+												echo "Deshabilitar";
+											}
+										?>
+									</button>
+								</a>
+							</td>
+						</tr>
+					<?php endforeach ?>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
